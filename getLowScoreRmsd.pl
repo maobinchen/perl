@@ -6,8 +6,8 @@ if(-d "top10"){
 }else{
     mkdir("top10");
     chdir("top10");
-    system("~/bin/extract_lowscore_decoys.py ../top100.out 20 >top10.out");
-    system("~/bin/getPDBFromSilent.pl top10.out _");
+    system("/work/binchen/bin/extract_lowscore_decoys.py ../top100.out 20 >top10.out");
+    system("/work/binchen/bin/getPDBFromSilent.pl top10.out _");
     system("grep '^SCORE' top10.out >top10.sc");
 }
 open(T,'top10.sc');
@@ -25,7 +25,7 @@ print O "decoy\trms\tscore\tgdt-ts\t<1\t<2\t<4\t<8\n";
 foreach (@files){
     if(/^(S.*)\.pdb$/){
 	my $kw = $1;
-	system("~/bin/scripts/Util/TMscore $_ ../00001.pdb >tm.out");
+	system("/work/binchen/bin/scripts/Util/TMscore $_ ../00001.pdb >tm.out");
 	open(T,"tm.out");
 	while(<T>){
 	    if(/^RMSD.*\=\s+([\d\.]+)/){

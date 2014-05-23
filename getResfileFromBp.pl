@@ -8,14 +8,20 @@ my $err_f = 'err';
 open(L,">>log");
 my %haripin = ( 'BGGB' => ['YYH','NNHHDG','G','KKNREQ'],
                 'BEAB' => ['YYHS','G','NDS','TTGNRK'],
+                'BGAB' => ['YYHS','G','NDS','TTGNRK'],
                 'EEAE' => ['YYHS','G','NDS','TTGNRK'],
                 'EEAB' => ['YYHS','G','NDS','TTGNRK'],
 		'BAAB' => ['NNDDST','PPE','DDDNST','G'],
 		'BBGB' => ['AGKLRSVEFV','PPPEK','G','IKLGRV']);
 my $b_str = 'IITTVVYYWWFFCMQSRL';
 my $bp_f = $ARGV[0];
+my $rs = 'dt'; #make this as default
+$rs = $ARGV[1] if ($ARGV[1]); 
+if($rs and $rs eq 'dt'){
+    $b_str = 'YYWWFFITVCMQSRL';
+}
 my %bp = ();
-open(F,$bp_f) or die("Usage: $0 <blueprint_file>\n");
+open(F,$bp_f) or die("Usage: $0 <blueprint_file> [strand_residues_selection]\n");
 while(<F>){
     if(/^\d+/){
 	chomp;
@@ -56,7 +62,7 @@ for (my $resi=1; $resi<=$nres-1; $resi++){
 	}
 	$resi += 3;
    }elsif($bp{$resi} eq 'EB'){
-	print O "$resi A PIKAA $b_str\n";
+	print O "$resi A PIKAA $b_str\n" unless($rs eq 'np');
     }
 }
 close O;

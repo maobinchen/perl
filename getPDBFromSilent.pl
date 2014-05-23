@@ -4,8 +4,8 @@ use warnings;
 
 my ($silent_f,$tag) = @ARGV;
 die("Usage: $0 <silent_f> <tag>\n") unless(-e $silent_f && scalar @ARGV == 2);  
-my $silent2pdb_app = '~/rosetta/rosetta_source/bin/extract_pdbs.linuxgccrelease';
-my $rosetta_db = '~/rosetta/rosetta_database';
+my $silent2pdb_app = '/work/binchen/rosetta/rosetta_source/bin/extract_pdbs.linuxgccrelease';
+my $rosetta_db = '/work/binchen/rosetta/rosetta_database';
 system("head -n 2 $silent_f >head.out");
 system("grep $tag $silent_f >temp.out");
 system("cat head.out temp.out >$tag\.out");
