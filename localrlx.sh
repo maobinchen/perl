@@ -1,0 +1,2 @@
+/gscratch/baker/binchen/bin/rosetta_scripts.static.linuxgccrelease -database /gscratch/dimaio/dimaio/Rosetta/database -parser:protocol ./localrlx.xml -ignore_unrecognized_res -score_symm_complex false -default_max_cycles 200 -edensity::cryoem_scatterers -crystal_refine -nstruct 6 -in:file:s starting_INPUT.pdb -parser:script_vars res=resx fa_wt=weight -edensity::mapreso resx -out::suffix localrlx_$1 -mute all >log_localrlx_$1
+touch done_$1

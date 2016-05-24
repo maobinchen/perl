@@ -1,0 +1,14 @@
+#-fix_disulf ./fake_ssfile.txt
+#-database /gscratch/dimaio/dimaio/Rosetta/database
+-relax:min_type lbfgs_armijo_nonmonotone
+-relax:jump_move true
+-default_max_cycles 200
+-mapreso resx 
+-parser:script_vars res=resx fa_wt=weight
+#-database /work/wangyr/rosetta_database/
+-parser:protocol localrlx.xml
+-out:pdb
+-overwrite
+-nstruct 10
+-edensity::cryoem_scatterers true
+-crystal_refine

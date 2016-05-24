@@ -1,0 +1,16 @@
+#-fix_disulf ./fake_ssfile.txt
+#-database /gscratch/dimaio/dimaio/Rosetta/database
+-default_max_cycles 200
+-mapreso resx 
+-parser:script_vars res=resx fa_wt=weight
+#-database /work/wangyr/rosetta_database/
+-parser:protocol apix.xml
+-out:pdb
+-overwrite
+-nstruct 1
+-out::suffix apix
+-ignore_unrecognized_res true
+-in:file:s starting_INPUT.pdb
+-score_symm_complex false
+-edensity::cryoem_scatterers true
+-crystal_refine

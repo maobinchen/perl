@@ -1,0 +1,41 @@
+cp /work/binchen/dock_into_density/data/EMD_model_challenge/inputs_apix/* .
+ln -s ../selected.pdb starting.pdb
+ln -s  ../../../other/groel-full_-100bf.mrc map.mrc
+mkdir opt_r1
+cp * opt_r1
+cd opt_r1
+~/mygit/Rosetta/main/source/src/apps/public/symmetry/make_symmdef_file.pl -m NCS -a A -i B H -r 1000 -p starting.pdb  >symm_def.txt
+modify_sym_def.pl symm_def.txt
+sh run_apix.sh
+mkdir localrlx
+cd localrlx
+ln -s ../starting_INPUTapix_0001.pdb starting.pdb
+ln -s ../apix_refined.mrc
+ln -s ../../localrlx.xml
+ln -s ../../localrlx.sh
+~/mygit/Rosetta/main/source/src/apps/public/symmetry/make_symmdef_file.pl -m NCS -a A -i B H -r 1000 -p starting.pdb  >symm_def.txt
+modify_sym_def.pl symm_def.txt
+parallel -j20 ./localrlx.sh {} ::: {1..20}
+grep 'FSC' starting_INPUTlocalrlx_*pdb | sed 's/:/ /' | awk '{print $1,$6;}' | sort -nk 2 >fsc.txt
+parse_molpro_fsc.pl all_molprob_results.txt fsc.txt >all_molpro_fsc
+cd ..
+ln -s localrlx/starting_INPUTlocalrlx_8_0010.pdb opt_r1_selected.pdb #picking model based on combination of FSC and molpro
+cd ..
+mkdir opt_r2
+cd opt_r2
+ln -s ../opt_r1/apix_refined.mrc map.mrc
+ln -s ../apix.xml
+ln -s ../opt_r1/opt_r1_selected.pdb starting.pdb
+ln -s ../run_apix.sh
+~/mygit/Rosetta/main/source/src/apps/public/symmetry/make_symmdef_file.pl -m NCS -a A -i B H -r 1000 -p starting.pdb  >symm_def.txt
+modify_sym_def.pl symm_def.txt
+sh run_apix.sh
+mkdir localrlx
+cd localrlx
+ln -s ../starting_INPUTapix_0001.pdb starting.pdb
+ln -s ../apix_refined.mrc
+ln -s ../../localrlx.xml
+ln -s ../../localrlx.sh
+~/mygit/Rosetta/main/source/src/apps/public/symmetry/make_symmdef_file.pl -m NCS -a A -i B H -r 1000 -p starting.pdb  >symm_def.txt
+modify_sym_def.pl symm_def.txt
+parallel -j20 ./localrlx.sh {} ::: {1..20}
